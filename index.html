@@ -181,7 +181,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     if(!entreprise){showError("Merci de renseigner le nom de votre entreprise.");root.querySelector('[data-entreprise]').focus();return;}
     var emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if(!email||!emailOk){showError("Merci de renseigner une adresse email valide.");root.querySelector('[data-email]').focus();return;}
-    if(!telephone){showError("Merci de renseigner votre numéro de téléphone.");root.querySelector('[data-tel]').focus();return;}
+    var telClean=telephone.replace(/[\s.\-]/g,'');
+    var telOk=/^0[1-9]\d{8}$/.test(telClean);
+    if(!telephone||!telOk){showError("Merci de renseigner un numéro de téléphone français valide (10 chiffres).");root.querySelector('[data-tel]').focus();return;}
 
     var days; if(soc<=3) days=3; else if(soc<=10) days=5; else days=8;
     var setupHT=days*900;
