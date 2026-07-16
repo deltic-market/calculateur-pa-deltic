@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Estimation facturation électronique — Deltic</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:transparent;padding:0;margin:0}
+
+.deltic-calc{
+  max-width:920px;margin:0 auto;padding:28px;border-radius:18px;
+  background:#fff;border:1px solid rgba(0,0,0,.06);
+  box-shadow:0 22px 60px rgba(0,0,0,0.08);
+}
+.deltic-head h3{margin:0 0 8px;font-size:24px;line-height:1.2;color:#006085;font-weight:900}
+.deltic-head p{margin:0 0 22px;color:rgba(15,23,42,.7);font-size:15px}
+.deltic-section-title{margin:22px 0 12px;font-weight:800;font-size:15px;color:#006085;padding-left:12px;border-left:4px solid #006085}
+.deltic-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:820px){.deltic-grid{grid-template-columns:1fr}}
+.deltic-card{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:16px}
+.deltic-card label{display:block;font-weight:700;font-size:13.5px;line-height:1.35;margin-bottom:9px;color:rgba(15,23,42,.9)}
+.deltic-card input{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(0,0,0,.14);font-size:15px;outline:none;transition:box-shadow .15s ease,border-color .15s ease;box-sizing:border-box}
+.deltic-card input:focus{border-color:rgba(0,96,133,.55);box-shadow:0 0 0 4px rgba(158,214,225,.55)}
+.deltic-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+.deltic-btn{border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease,opacity .12s ease;font-size:15px}
+.deltic-btn:active{transform:translateY(1px)}
+.deltic-btn.primary{background:#E26159;color:#fff;box-shadow:0 12px 26px rgba(226,97,89,.35)}
+.deltic-btn.primary:hover{box-shadow:0 16px 34px rgba(226,97,89,.42)}
+.deltic-btn.secondary{background:rgba(0,96,133,.10);color:#006085}
+.deltic-btn.secondary:hover{opacity:.92}
+.deltic-error{margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid rgba(226,97,89,.25);background:rgba(226,97,89,.08);color:#9b1c16;font-weight:700}
+.deltic-resultWrap{margin-top:18px;border-radius:16px;border:1px solid rgba(0,96,133,.18);background:#e1edef;overflow:hidden}
+.deltic-resultHeader{padding:16px 18px 6px}
+.deltic-resultTitle{font-size:18px;font-weight:900;color:#006085}
+.deltic-resultGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:12px 18px 18px}
+@media(max-width:820px){.deltic-resultGrid{grid-template-columns:1fr}}
+.deltic-resultCard{background:#fff;border:1px solid rgba(0,0,0,.06);border-radius:14px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+.deltic-resultLabel{font-weight:900;font-size:13px;color:rgba(15,23,42,.85);margin-bottom:10px}
+.deltic-resultRange{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.deltic-pill{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:999px;font-weight:900;letter-spacing:-0.02em;font-size:16px;min-width:220px;text-align:center;white-space:nowrap}
+.deltic-pill.outline{background:transparent;border:2px solid rgba(0,96,133,.22);color:#006085;box-shadow:none;min-width:240px}
+.deltic-pill.rdv{color:#006085!important}
+.deltic-disclaimer{padding:0 18px 18px;margin-top:2px;color:rgba(15,23,42,.75);font-size:13.5px;font-weight:650}
+</style>
+</head>
+<body>
+
+<div class="deltic-calc" id="deltic-root">
+  <div class="deltic-head">
+    <h3>Estimation conformité facturation électronique</h3>
+    <p>Renseignez vos volumes mensuels et vos coordonnées pour obtenir une estimation : setup, logiciel (€/mois) et PA (€/mois).</p>
+  </div>
+
+  <div class="deltic-section-title">Vos données</div>
+  <div class="deltic-grid">
+    <div class="deltic-card" style="grid-column:1/-1">
+      <label>Nombre de sociétés</label>
+      <input type="number" min="1" step="1" inputmode="numeric" data-soc placeholder="Ex : 3">
+    </div>
+    <div class="deltic-card">
+      <label>Volume mensuel entrant — Factures FR</label>
+      <input type="number" min="0" step="1" inputmode="numeric" data-in-fr placeholder="Ex : 400">
+    </div>
+    <div class="deltic-card">
+      <label>Volume mensuel entrant — Factures hors France</label>
+      <input type="number" min="0" step="1" inputmode="numeric" data-in-etr placeholder="Ex : 150">
+    </div>
+    <div class="deltic-card">
+      <label>Volume mensuel sortant — Factures FR</label>
+      <input type="number" min="0" step="1" inputmode="numeric" data-out-fr placeholder="Ex : 300">
+    </div>
+    <div class="deltic-card">
+      <label>Volume mensuel sortant — Factures hors France</label>
+      <input type="number" min="0" step="1" inputmode="numeric" data-out-etr placeholder="Ex : 50">
+    </div>
+  </div>
+
+  <div class="deltic-section-title">Vos coordonnées</div>
+  <div class="deltic-grid">
+    <div class="deltic-card">
+      <label>Nom / Prénom</label>
+      <input type="text" data-nom placeholder="Ex : Marie Dupont" required>
+    </div>
+    <div class="deltic-card">
+      <label>Entreprise</label>
+      <input type="text" data-entreprise placeholder="Ex : Dupont SAS" required>
+    </div>
+    <div class="deltic-card">
+      <label>Email</label>
+      <input type="email" inputmode="email" autocomplete="email" data-email placeholder="Ex : nom@entreprise.com" required>
+    </div>
+    <div class="deltic-card">
+      <label>Téléphone</label>
+      <input type="tel" inputmode="tel" autocomplete="tel" data-tel placeholder="Ex : 06 12 34 56 78" required>
+    </div>
+  </div>
+
+  <div class="deltic-actions">
+    <button class="deltic-btn primary" type="button" id="btn-calc">Obtenir mon estimation</button>
+    <button class="deltic-btn secondary" type="button" id="btn-reset">Réinitialiser</button>
+  </div>
+
+  <div class="deltic-error" aria-live="polite" id="error-box" style="display:none"></div>
+
+  <div class="deltic-resultWrap" id="result-wrap" style="display:none">
+    <div class="deltic-resultHeader">
+      <div class="deltic-resultTitle">Votre estimation</div>
+    </div>
+    <div class="deltic-resultGrid">
+      <div class="deltic-resultCard">
+        <div class="deltic-resultLabel">Setup (prestation) — HT</div>
+        <div class="deltic-resultRange"><span class="deltic-pill outline" id="out-setup">—</span></div>
+      </div>
+      <div class="deltic-resultCard">
+        <div class="deltic-resultLabel">Logiciel (workflows, indexation, support…) — / mois</div>
+        <div class="deltic-resultRange"><span class="deltic-pill outline" id="out-software">—</span></div>
+      </div>
+      <div class="deltic-resultCard" style="grid-column:1/-1">
+        <div class="deltic-resultLabel">Plateforme agréée (PA) — / mois</div>
+        <div class="deltic-resultRange"><span class="deltic-pill outline" id="out-pa">—</span></div>
+      </div>
+    </div>
+    <div class="deltic-disclaimer">Les résultats sont estimatifs. Un chiffrage précis sera réalisé avec vous.</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var root = document.getElementById('deltic-root');
+  var error = document.getElementById('error-box');
+  var resultWrap = document.getElementById('result-wrap');
+
+  function readInt(attr){
+    var el = root.querySelector('['+attr+']');
+    var v = (el.value||'').trim();
+    if(v==='') return null;
+    var n = parseInt(v,10);
+    return Number.isFinite(n)?n:null;
+  }
+  function readText(attr){
+    var el = root.querySelector('['+attr+']');
+    return (el.value||'').trim();
+  }
+  function showError(msg){
+    resultWrap.style.display='none';
+    error.style.display='block';
+    error.textContent=msg;
+  }
+
+  document.getElementById('btn-calc').addEventListener('click',function(){
+    var GOOGLE_SHEETS_WEBAPP_URL="VOTRE_URL_GOOGLE_APPS_SCRIPT_ICI";
+    error.style.display='none';
+    error.textContent='';
+
+    var soc=readInt('data-soc');
+    var inFR=readInt('data-in-fr');  if(inFR===null) inFR=0;
+    var inETR=readInt('data-in-etr'); if(inETR===null) inETR=0;
+    var outFR=readInt('data-out-fr'); if(outFR===null) outFR=0;
+    var outETR=readInt('data-out-etr'); if(outETR===null) outETR=0;
+
+    var nom=readText('data-nom');
+    var email=readText('data-email');
+    var entreprise=readText('data-entreprise');
+    var telephone=readText('data-tel');
+
+    if(soc===null||soc<1){showError("Merci d'indiquer un nombre de sociétés (≥ 1).");root.querySelector('[data-soc]').focus();return;}
+    if([inFR,inETR,outFR,outETR].some(function(v){return v<0;})){showError("Merci de renseigner des volumes valides (≥ 0).");return;}
+    if(!nom){showError("Merci de renseigner votre nom.");root.querySelector('[data-nom]').focus();return;}
+    if(!entreprise){showError("Merci de renseigner le nom de votre entreprise.");root.querySelector('[data-entreprise]').focus();return;}
+    var emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if(!email||!emailOk){showError("Merci de renseigner une adresse email valide.");root.querySelector('[data-email]').focus();return;}
+    if(!telephone){showError("Merci de renseigner votre numéro de téléphone.");root.querySelector('[data-tel]').focus();return;}
+
+    var days; if(soc<=3) days=3; else if(soc<=10) days=5; else days=8;
+    var setupHT=days*900;
+
+    var monthlyAll=inFR+inETR+outFR+outETR;
+    var annualAll=monthlyAll*12;
+    var gb=annualAll*0.0001;
+
+    var gbTiers=[0.5,1.5,3,5,6,7.5,9,12,15,18,21,24,30,40,50,100,150,200];
+    var gbPrices=[165,285,465,665,775,875,985,1145,1245,1345,1645,1845,2045,2295,2595,2995,3995,4995];
+
+    var softwareMonthly;
+    if(gb<=0){softwareMonthly=gbPrices[0];}
+    else if(gb>200){softwareMonthly=null;}
+    else{var idx=gbTiers.findIndex(function(t){return gb<=t;});softwareMonthly=gbPrices[idx];}
+
+    var monthlyFR=inFR+outFR;
+    function paRate(m){if(m<=400)return 0.09;if(m<=1000)return 0.08;if(m<=5000)return 0.07;return 0.06;}
+    var paMonthly=Math.trunc(monthlyFR*paRate(monthlyFR));
+
+    var fmt=new Intl.NumberFormat('fr-FR');
+    document.getElementById('out-setup').textContent=fmt.format(setupHT)+' € HT';
+    var softEl=document.getElementById('out-software');
+    softEl.classList.remove('rdv');
+    if(softwareMonthly===null){softEl.textContent='Chiffrage sur RDV';softEl.classList.add('rdv');}
+    else{softEl.textContent=fmt.format(softwareMonthly)+' € / mois';}
+    document.getElementById('out-pa').textContent=fmt.format(paMonthly)+' € / mois';
+
+    resultWrap.style.display='block';
+    try{resultWrap.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}
+
+    if(GOOGLE_SHEETS_WEBAPP_URL&&GOOGLE_SHEETS_WEBAPP_URL.startsWith('https://')){
+      var payload={
+        nom:nom,email:email,entreprise:entreprise,telephone:telephone,
+        societes:soc,inFR:inFR,inETR:inETR,outFR:outFR,outETR:outETR,
+        setup:fmt.format(setupHT)+' € HT',
+        softwareMonthly:softwareMonthly===null?'Chiffrage sur RDV':fmt.format(softwareMonthly)+' € / mois',
+        paMonthly:fmt.format(paMonthly)+' € / mois',
+        pageUrl:document.location.href,
+        timestamp:new Date().toISOString()
+      };
+      try{fetch(GOOGLE_SHEETS_WEBAPP_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});}catch(e){}
+    }
+
+    if(window.parent!==window){
+      window.parent.postMessage({type:'deltic-resize',height:document.body.scrollHeight},'*');
+    }
+  });
+
+  document.getElementById('btn-reset').addEventListener('click',function(){
+    root.querySelectorAll('input').forEach(function(i){i.value='';});
+    error.style.display='none';error.textContent='';
+    resultWrap.style.display='none';
+    document.getElementById('out-setup').textContent='—';
+    var s=document.getElementById('out-software');s.textContent='—';s.classList.remove('rdv');
+    document.getElementById('out-pa').textContent='—';
+    if(window.parent!==window){
+      window.parent.postMessage({type:'deltic-resize',height:document.body.scrollHeight},'*');
+    }
+  });
+
+  window.addEventListener('load',function(){
+    if(window.parent!==window){
+      window.parent.postMessage({type:'deltic-resize',height:document.body.scrollHeight},'*');
+    }
+  });
+})();
+</script>
+</body>
+</html>
