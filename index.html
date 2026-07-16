@@ -185,23 +185,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     var telOk=/^0[1-9]\d{8}$/.test(telClean);
     if(!telephone||!telOk){showError("Merci de renseigner un numéro de téléphone français valide (10 chiffres).");root.querySelector('[data-tel]').focus();return;}
 
-    var days; if(soc<=3) days=3; else if(soc<=10) days=5; else days=8;
-    var setupHT=days*900;
+    var _d=JSON.parse(atob('eyJndCI6WzAuNSwxLjUsMyw1LDYsNy41LDksMTIsMTUsMTgsMjEsMjQsMzAsNDAsNTAsMTAwLDE1MCwyMDBdLCJncCI6WzE2NSwyODUsNDY1LDY2NSw3NzUsODc1LDk4NSwxMTQ1LDEyNDUsMTM0NSwxNjQ1LDE4NDUsMjA0NSwyMjk1LDI1OTUsMjk5NSwzOTk1LDQ5OTVdLCJzdCI6WzMsMTBdLCJzZCI6WzMsNSw4XSwic3IiOjkwMCwicHQiOls0MDAsMTAwMCw1MDAwXSwicHIiOlswLjA5LDAuMDgsMC4wNywwLjA2XX0='));
+    var days; if(soc<=_d.st[0]) days=_d.sd[0]; else if(soc<=_d.st[1]) days=_d.sd[1]; else days=_d.sd[2];
+    var setupHT=days*_d.sr;
 
     var monthlyAll=inFR+inETR+outFR+outETR;
     var annualAll=monthlyAll*12;
     var gb=annualAll*0.0001;
 
-    var gbTiers=[0.5,1.5,3,5,6,7.5,9,12,15,18,21,24,30,40,50,100,150,200];
-    var gbPrices=[165,285,465,665,775,875,985,1145,1245,1345,1645,1845,2045,2295,2595,2995,3995,4995];
-
     var softwareMonthly;
-    if(gb<=0){softwareMonthly=gbPrices[0];}
-    else if(gb>200){softwareMonthly=null;}
-    else{var idx=gbTiers.findIndex(function(t){return gb<=t;});softwareMonthly=gbPrices[idx];}
+    if(gb<=0){softwareMonthly=_d.gp[0];}
+    else if(gb>_d.gt[_d.gt.length-1]){softwareMonthly=null;}
+    else{var idx=_d.gt.findIndex(function(t){return gb<=t;});softwareMonthly=_d.gp[idx];}
 
     var monthlyFR=inFR+outFR;
-    function paRate(m){if(m<=400)return 0.09;if(m<=1000)return 0.08;if(m<=5000)return 0.07;return 0.06;}
+    function paRate(m){if(m<=_d.pt[0])return _d.pr[0];if(m<=_d.pt[1])return _d.pr[1];if(m<=_d.pt[2])return _d.pr[2];return _d.pr[3];}
     var paMonthly=Math.trunc(monthlyFR*paRate(monthlyFR));
 
     var fmt=new Intl.NumberFormat('fr-FR');
