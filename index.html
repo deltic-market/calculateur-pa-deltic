@@ -182,6 +182,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     var emailOk=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if(!email||!emailOk){showError("Merci de renseigner une adresse email valide.");root.querySelector('[data-email]').focus();return;}
     var telClean=telephone.replace(/[\s.\-]/g,'');
+    if(/^\+33/.test(telClean)) telClean='0'+telClean.slice(3);
+    else if(/^0033/.test(telClean)) telClean='0'+telClean.slice(4);
     var telOk=/^0[1-9]\d{8}$/.test(telClean);
     if(!telephone||!telOk){showError("Merci de renseigner un numéro de téléphone français valide (10 chiffres).");root.querySelector('[data-tel]').focus();return;}
 
